@@ -68,12 +68,12 @@ if __name__ == "__main__":
         num = df.iloc[start]['num']
         text = df.iloc[start]['shlokaH']
         text = text.replace('।', '।<br>')
-        d = df.iloc[start:stop][['padam', 'lingam', 'arthaH']]
+        d = df.iloc[start:stop][['mUlashabdaH', 'lingam', 'arthaH']]
         # पदम्,मूलशब्दः,अन्तव्यवस्था,लिङ्गम्,अर्थः
         d.columns = ['मूलशब्दः', 'लिङ्गम्', 'अर्थः']
         s = io.StringIO()
         d.to_html(s, index=False, index_names=False,
-                  classes='table table-bordered', border=0,
+                  classes='table table-bordered table-striped', border=0,
                   justify="center")
         table = s.getvalue()
         with open(f'{SHLOKA_HTML_DIR}/{num}.html', 'w',
