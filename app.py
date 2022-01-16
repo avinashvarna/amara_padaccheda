@@ -29,7 +29,7 @@ shlokas = [os.path.splitext(os.path.basename(f))[0] for f in files]
 shloka_idx = {f: i for i, f in enumerate(shlokas)}
 
 
-@app.route('/shloka/<shloka_num>')
+@app.route('/shloka/<string:shloka_num>/')
 def shloka(shloka_num):
     filename = f'{SHLOKA_HTML_DIR}/{shloka_num}.html'
     if os.path.exists(filename):
