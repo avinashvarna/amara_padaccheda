@@ -37,7 +37,8 @@ def download_file(url:str, filepath:str = None):
 if __name__ == "__main__":
     _start_time = datetime.datetime.now()
 
-    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTi3Y68lIbndUd8G0BCiqcq2nD8kch9njE37aIDlEwR9tB7AbqEA5wLBKnW1kCgaNxAAVF9XwwYAC6b/pub?gid=0&single=true&output=csv"
+    # url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTi3Y68lIbndUd8G0BCiqcq2nD8kch9njE37aIDlEwR9tB7AbqEA5wLBKnW1kCgaNxAAVF9XwwYAC6b/pub?gid=0&single=true&output=csv"
+    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSam328UZJFE6ZzKMWVnL8koGcH9ZatuC8ktBsGVtn2C4DkHtwlZLZ_jlhVB1hY5ERjDvvH_kprD0vV/pub?gid=1065135109&single=true&output=csv"
 
     template = Template('''
     <h1>पदच्छेदः</h1>
@@ -56,16 +57,20 @@ if __name__ == "__main__":
         os.mkdir(SHLOKA_HTML_DIR)
 
     # Create HTML file for each shloka
-    df = pd.read_csv(csv_file, header=None)
-    shloka_starts = df[0] ==  'श्लोकः'
-    shloka_starts = list(np.nonzero(shloka_starts.values)[0])
+    df = pd.read_csv(csv_file, header=0)
+    t = df['Sl.No'].fillna(0)
+    shloka_starts = list(np.nonzero(t.values)[0])
     shloka_starts.append(len(df))
     for (start, stop) in more_itertools.pairwise(shloka_starts):
-        num = df.iloc[start][1]
-        text = df.iloc[start][2]
+        idx = df.iloc[start]['Sl.No']
+        if idx < 6:
+            continue
+        num = df.iloc[start]['num']
+        text = df.iloc[start]['shlokaH']
         text = text.replace('।', '।<br>')
-        d = df.iloc[start+2:stop]
-        d.columns = df.iloc[start+1]
+        d = df.iloc[start:stop][['padam', 'lingam', 'arthaH']]
+        # पदम्,मूलशब्दः,अन्तव्यवस्था,लिङ्गम्,अर्थः
+        d.columns = ['मूलशब्दः', 'लिङ्गम्', 'अर्थः']
         s = io.StringIO()
         d.to_html(s, index=False, index_names=False,
                   classes='table table-bordered', border=0,
