@@ -1,0 +1,10 @@
+{% include "header.html" %}
+<div class="d-flex flex-wrap container p-3">
+	{% for s in data.shlokas %}
+	<div class="col-sm-1">
+		<a href="{{url_for('shloka', shloka_num=s) }}">{{ s | safe}}</a>
+	</div>
+	{% endfor %}
+</div>
+
+{% include "footer.html" %}

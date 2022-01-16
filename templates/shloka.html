@@ -1,0 +1,30 @@
+{% include "header.html" %}
+<div class="container p-3">
+    <div class="col-sm-9">
+	{{ data.table | safe }}
+    </div>
+	<div class="col-sm-9">
+		<div class="row justify-content-between">
+			<div class="col-sm-3">
+				{% if data.prev %}
+				<a class="nav-link" href="{{data.prev | safe}}">
+					<p class="text-left">
+						<i class="bi bi-skip-backward-btn"></i> Prev
+					</p>
+				</a>
+				{% endif %}
+			</div>
+			<div class="col-sm-3">
+				{% if data.next %}
+				<a class="nav-link" href="{{data.next | safe}}">
+					<p class="text-right">
+					Next <i class="bi bi-skip-forward-btn"></i>
+					</p>
+				</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include "footer.html" %}
